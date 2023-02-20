@@ -7,7 +7,7 @@ on:
 
 jobs:
   push_to_registry:
-    name: Push Docker image to Docker Hub
+    name: Push Docker image to ghcr
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: misskey/misskey
+          images: ghcr.io/${{ github.repository }}
           tags: |
             type=edge
             type=ref,event=pr
@@ -38,7 +38,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
-      - name: Build and Push to Docker Hub
+      - name: Build and Push to ghcr
         uses: docker/build-push-action@v4
         with:
           builder: ${{ steps.buildx.outputs.name }}
